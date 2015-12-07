@@ -22,7 +22,7 @@ Operating System :: Microsoft :: Windows
 Operating System :: POSIX
 """
 
-from distutils.core import setup
+from setuptools import setup
 import sys
 
 if sys.version_info < (2, 3):
