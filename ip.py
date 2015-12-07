@@ -170,14 +170,14 @@ class Packet:
             try:
                 self.__src = socket.inet_aton(socket.gethostbyname(self.src))
             except ValueError:
-                raise ValueError, "invalid source address"
+                raise ValueError("invalid source address")
         try:
             self.__dst = socket.inet_aton(self.dst)
         except ValueError:
             try:
                 self.__dst = socket.inet_aton(socket.gethostbyname(self.dst))
             except ValueError:
-                raise ValueError, "invalid source address"
+                raise ValueError("invalid source address")
 
     def __unparse_addrs(self):
         src = struct.unpack('cccc', self.src)
@@ -192,7 +192,7 @@ class Packet:
         self.v = (b1 >> 4) & 0x0f
         self.hl = b1 & 0x0f
         if self.v != IPVERSION:
-            raise ValueError, "cannot handle IPv%d packets" % self.v
+            raise ValueError("cannot handle IPv%d packets" % self.v)
         hl = self.hl * 4
 
         # verify the checksum
@@ -200,7 +200,7 @@ class Packet:
         if cksum:
             our_cksum = inetutils.cksum(packet[:20])
             if our_cksum != 0:
-                raise ValueError, packet
+                raise ValueError(packet)
 
         # unpack the fields
         elts = struct.unpack('ccHHHcc', packet[:hl-10])

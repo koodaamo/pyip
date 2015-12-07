@@ -66,7 +66,7 @@ class Packet:
         if cksum and packet[6:8] != '\000\000':
             our_cksum = inetutils.cksum(packet)
             if our_cksum != 0:
-                raise ValueError, packet
+                raise ValueError(packet)
         elts = map(lambda x:x & 0xffff, struct.unpack('HHHH', packet[:8]))
         [self.sport, self.dport, self.ulen, self.sum] = elts
         self.data = packet[8:]

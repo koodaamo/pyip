@@ -94,7 +94,7 @@ class Packet:
         
         #only field let to puplate is cksum
         if cksum and 0 != inetutils.cksum(buffer):
-            raise ValueError, "CheckSum Error!"
+            raise ValueError("CheckSum Error!")
         self.__cksum = buffer[2:4]
         self.__raw_packet = buffer
     
@@ -132,7 +132,7 @@ class IdAndSeqPacket(Packet):
 
     def _disassemble(self, buffer, cksum):
         if len(buffer) < 8:
-            raise ValueError, "Invalid ICMP Packet length: %d" % len(buffer)
+            raise ValueError("Invalid ICMP Packet length: %d" % len(buffer))
         
         (self.__id, self.__seq) = struct.unpack('HH', buffer[4:8])
         self.__data = buffer[8:]
@@ -157,7 +157,7 @@ class Echo(IdAndSeqPacket):
     def _disassemble(self, buffer, cksum):
         type, code = ord(buffer[0]), ord(buffer[1])
         if type != ICMP_ECHO or code != 0:
-            raise ValueError, "Invalid Echo ICMP type: %d or code: %d" % (type, code)
+            raise ValueError("Invalid Echo ICMP type: %d or code: %d" % (type, code))
         IdAndSeqPacket._disassemble(self, buffer, cksum)
 
   
@@ -174,7 +174,7 @@ class EchoReply(IdAndSeqPacket):
     def _disassemble(self, buffer, cksum):
         type, code = ord(buffer[0]), ord(buffer[1])
         if type != ICMP_ECHOREPLY or code != 0:
-            raise ValueError, "Invalid EchoReply ICMP type: %d or code: %d" % (type, code)
+            raise ValueError("Invalid EchoReply ICMP type: %d or code: %d" % (type, code))
         IdAndSeqPacket._disassemble(self, buffer, cksum)
         
 
@@ -216,7 +216,7 @@ class TimeExceeded(IPEmbeddedPacket):
     def _disassemble(self, buffer, cksum):
         type = ord(buffer[0])
         if type != ICMP_TIMXCEED:
-            raise ValueError, "Invalid TimeExceeded ICMP type: %d" % type
+            raise ValueError("Invalid TimeExceeded ICMP type: %d" % type)
         IPEmbeddedPacket._disassemble(self, buffer, cksum)
 
     
@@ -231,7 +231,7 @@ class Unreachable(IPEmbeddedPacket):        #Unreachable is the same with TimeEx
     def _disassemble(self, buffer, cksum):
         type = ord(buffer[0])
         if type != ICMP_UNREACH:
-            raise ValueError, "Invalid Unreachable ICMP type: %d" % type
+            raise ValueError("Invalid Unreachable ICMP type: %d" % type)
         IPEmbeddedPacket._disassemble(self, buffer, cksum)
 
 def assemble(packet, cksum=1):
@@ -249,7 +249,7 @@ def disassemble(buffer, cksum=1):
     elif type == ICMP_UNREACH:
         packet = Unreachable(code = code)
     else:
-        raise ValueError, "Unrecognized type: %d" % type
+        raise ValueError("Unrecognized type: %d" % type)
     
     packet._disassemble(buffer, cksum)
     return packet
