@@ -6,7 +6,7 @@
 # pyip is released under PYTHON SOFTWARE FOUNDATION LICENSE VERSION 2, and is
 # a project inspired by 'ping' written by Jeremy Hylton.
 #
-A# Author: Kenneth Jiang, kenneth.jiang@gmail.com
+# Author: Kenneth Jiang, kenneth.jiang@gmail.com
 #
 
 import sys ; sys.path.insert(0, '..')
